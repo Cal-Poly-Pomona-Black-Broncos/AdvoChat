@@ -40,31 +40,32 @@ def parse_json(email):
             latest_response = max(filtered_data, key=lambda x: x.get("Timestamp"))
             save_json([latest_response], "individual_form.json")
 
-def append_prediction(data, other_json_path):
+# def append_prediction(data, json_data):
+#     """
+#     Append or update JSON data with new data.
 
-    #open both json
-    with open(indiv_form, 'r', encoding='utf-8') as file:
-        json_data = json.load(file)
+#     Args:
+#         data: The new data to append or update.
+#         json_data: The existing JSON data (list or dictionary).
+
+#     Returns:
+#         The updated JSON data.
+#     """
+#     # Combine data based on the JSON structure
+#     if isinstance(json_data, list):
+#         if data not in json_data:  # Avoid duplicates
+#             json_data.append(data)
+#     elif isinstance(json_data, dict):
+#         json_data.update(data)
+#     else:
+#         raise ValueError("JSON structure must be a list or dictionary.")
     
-    with open(other_json_path, 'r', encoding='utf-8') as other_file:
-        other_json_data = json.load(other_file)
+#     return json_data
 
-    #combine json    
-    if isinstance(json_data, list) and isinstance(other_json_data, list):
-        json_data.extend(other_json_data)
-    elif isinstance(json_data, dict) and isinstance(other_json_data, dict):
-        json_data.update(other_json_data)
-    else:
-        raise ValueError("Incompatible JSON structures: both must be lists or both must be dictionaries.")
-    
-    if isinstance(json_data, list):
-        json_data.append(data)
-    elif isinstance(json_data, dict):
-        json_data.update(data)
-    with open(indiv_form, 'w', encoding='utf-8') as file:
-        json.dump(json_data, file, indent=4)
+
+# updated_data = append_prediction(individual_form, individual_form)
 
 
 
-# csv_json()
+csv_json()
 # parse_json("Cmartin@cpp.edu")

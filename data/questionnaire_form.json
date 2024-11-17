@@ -1,50 +1,17 @@
 [
     {
-        "Timestamp": "11/16/2024 19:53:22",
-        "First Name ": "Christian ",
-        "Last Name ": "Martin ",
-        "Insurance Carrier": "Blue Cross",
-        "Health Concerns/Symptoms ": "anal fissures",
-        "Age ": "20",
-        "Race": "Black or African American",
-        "Admission Tpye ": "",
-        "Reason For Visit ": "Urgent",
-        "Email ": "Cmartin@cpp.edu "
-    },
-    {
-        "Timestamp": "11/16/2024 20:15:15",
-        "First Name ": "bruh",
-        "Last Name ": " bruh",
-        "Insurance Carrier": "Medicare",
-        "Health Concerns/Symptoms ": "fungal infections.",
-        "Age ": "22",
-        "Race": "Middle Eastern or North African",
-        "Admission Tpye ": "",
-        "Reason For Visit ": "Emergency",
-        "Email ": "brurh@gmail.com"
-    },
-    {
-        "Timestamp": "11/16/2024 21:40:43",
+        "Timestamp ": "11/17/2024 0:28:27",
         "First Name ": "John",
-        "Last Name ": "Doe",
-        "Insurance Carrier": "Medicare",
-        "Health Concerns/Symptoms ": "fungal infections...ALOT",
-        "Age ": "32",
-        "Race": "Hispanic or Latino, Middle Eastern or North African",
-        "Admission Tpye ": "",
-        "Reason For Visit ": "Emergency",
-        "Email ": "jd@gmail.com"
-    },
-    {
-        "Timestamp": "11/16/2024 21:55:52",
-        "First Name ": "Elom",
-        "Last Name ": "Attipoe",
-        "Insurance Carrier": "Blue Cross",
-        "Health Concerns/Symptoms ": "broken leg",
-        "Age ": "20",
-        "Race": "American Indian or Alaska Native",
-        "Admission Tpye ": "",
-        "Reason For Visit ": "Urgent",
-        "Email ": "12345@gmail.com"
+        "Last Name  ": "Doe",
+        "Insurance Carrier ": "Medicare",
+        "Medical Condition ": "Cancer",
+        "Age  ": "52",
+        "Race ": "Black or African American",
+        "Admission Tpye  ": "",
+        "Reason For Visit  ": "Urgent",
+        "Email  ": "bruh@gmail.com",
+        "Gender ": "Male",
+        "Symptoms / Health Concerns ": "Flu like symptoms, Cough, dry throat",
+        "Zip code ": "91206"
     }
 ]
