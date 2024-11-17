@@ -1,9 +1,10 @@
 import json
 import os
 from openai import OpenAI
-
+from dotenv import load_dotenv
 #API SETUP + CONVO HEADER & CONVO ARRAY
-client = OpenAI(api_key=API_KEY)
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 conversation_history = [{"role": "system", "content": "You are a medical assistant. I will provide you with a json file with a patients background information, and further details to help aid the paitent, you will only contextualize"}]
 
