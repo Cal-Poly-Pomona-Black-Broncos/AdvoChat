@@ -1,7 +1,5 @@
-echo "# AI-Hackathon" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/Bcollier05/AI-Hackathon.git
-git push -u origin main
+
+# AdvoChat 
+FRC Region VI NSBE AI Innotech Impact-a-Thon
+
+Enhanced Access through Telehealth: Develop AI-enhanced telehealth solutions using also any coding software of your choice (ex Python, R, etc.) to extend healthcare access to underserved Black communities, focusing on chronic disease management and mental health services
