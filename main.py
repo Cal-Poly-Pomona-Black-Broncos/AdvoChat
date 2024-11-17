@@ -1,5 +1,5 @@
 import advochat, sheetreader#, PredictionModel
-
+import json
 AdvoChat = advochat
 SheetReader = sheetreader
 
@@ -12,7 +12,8 @@ print("\n")
 SheetReader.csv_json()
 SheetReader.parse_json(email)
 
-#PredicitionModel.
+individual_form = json
+#PredicitionModel.withJson()
 
 #rediciton_json = 
 #SheetReader.append_prediction(prediction_json)
