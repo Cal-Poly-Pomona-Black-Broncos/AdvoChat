@@ -3,7 +3,6 @@ import os
 import csv
 import json
 
-response = requests.get("https://docs.google.com/spreadsheets/d/1Mt5Ep5oEZB3_Qj3sjaAaL5jmi6L3iqhcQx14keK6prI/gviz/tq?tqx=out:csv")
 
 json_form = os.path.join("data", "questionnaire_form.json")
 
@@ -18,6 +17,7 @@ def save_json(data, name):
 
 #download form into json
 def csv_json():
+    response = requests.get("https://docs.google.com/spreadsheets/d/1Mt5Ep5oEZB3_Qj3sjaAaL5jmi6L3iqhcQx14keK6prI/gviz/tq?tqx=out:csv")
     if response.status_code == 200:
         csv_content = response.content.decode("utf-8")
         csv_reader = csv.DictReader(csv_content.splitlines())
@@ -39,5 +39,5 @@ def parse_json(email):
             latest_response = max(filtered_data, key=lambda x: x.get("Timestamp"))
             save_json([latest_response], "individual_form.json")
 
-csv_json()
-parse_json("brurh@gmail.com")
+# csv_json()
+# parse_json("brurh@gmail.com")
