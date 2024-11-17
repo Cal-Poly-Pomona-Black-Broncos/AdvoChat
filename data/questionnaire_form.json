@@ -1,0 +1,26 @@
+[
+    {
+        "Timestamp": "11/16/2024 19:53:22",
+        "First Name ": "Christian ",
+        "Last Name ": "Martin ",
+        "Insurance Carrier": "Blue Cross",
+        "Health Concerns/Symptoms ": "anal fissures",
+        "Age ": "20",
+        "Race": "Black or African American",
+        "Admission Tpye ": "",
+        "Reason For Visit ": "Urgent",
+        "Email ": "Cmartin@cpp.edu "
+    },
+    {
+        "Timestamp": "11/16/2024 20:15:15",
+        "First Name ": "bruh",
+        "Last Name ": " bruh",
+        "Insurance Carrier": "Medicare",
+        "Health Concerns/Symptoms ": "fungal infections.",
+        "Age ": "22",
+        "Race": "Middle Eastern or North African",
+        "Admission Tpye ": "",
+        "Reason For Visit ": "Emergency",
+        "Email ": "brurh@gmail.com"
+    }
+]
