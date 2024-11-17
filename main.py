@@ -3,36 +3,40 @@ import json
 AdvoChat = advochat
 SheetReader = sheetreader
 PredModel = PredictionModel
-print("form link: https://forms.gle/9CLpDPF8fzLHeUQB6 \n")
 
-email = input("once form is co mpleted, provide email: ")
+def main():
+    print("form link: https://forms.gle/9CLpDPF8fzLHeUQB6 \n")
 
-print("\n")
+    email = input("once form is completed, provide email: ")
 
-SheetReader.csv_json()
-SheetReader.parse_json(email)
+    print("\n")
 
-json_file_path = r'data\individual_form.json'
-user_input = PredModel.load_user_input(json_file_path)
+    SheetReader.csv_json()
+    SheetReader.parse_json(email)
 
-
-csv_output_path = r'data\user_input_output.csv'
-PredModel.json_to_csv(user_input, csv_output_path, PredModel.expected_columns)
+    json_file_path = r'data\individual_form.json'
+    user_input = PredModel.load_user_input(json_file_path)
 
 
-predicted_class = PredModel.predict_hospital(PredModel.rf, PredModel.x_clean, user_input[0], PredModel.encoders)
-print(f"Prediction for the user input: {predicted_class}")
+    csv_output_path = r'data\user_input_output.csv'
+    PredModel.json_to_csv(user_input, csv_output_path, PredModel.expected_columns)
 
-# with open(r"data\individual_form.json", "r") as file:
-#     individual_form = json.load(file)
 
-# SheetReader.combine_with_individual_form(individual_form)
+    predicted_class = PredModel.predict_hospital(PredModel.rf, PredModel.x_clean, user_input[0], PredModel.encoders)
 
-#PredicitionModel.withJson()
+    SheetReader.append_predicted_class(predicted_class)
+    # with open(r"data\individual_form.json", "r") as file:
+    #     individual_form = json.load(file)
 
-#rediciton_json = 
-#SheetReader.append_prediction(prediction_json)
+    # SheetReader.combine_with_individual_form(individual_form)
 
-print("------------Begin-Chat--------------")
+    #PredicitionModel.withJson()
 
-AdvoChat.chat()
+    #rediciton_json = 
+    #SheetReader.append_prediction(prediction_json)
+
+    print("------------Begin-Chat--------------")
+
+    AdvoChat.chat()
+
+main()

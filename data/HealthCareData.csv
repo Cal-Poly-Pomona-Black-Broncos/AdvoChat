@@ -1,4 +1,4 @@
-Name,Age,Gender,Race,Wait Time (hours),Medical Condition,Symptoms,Insurance Provider,Hospital,Hospital Zip Code,Price Range,Admission Type
+Name,Age,Gender,Race,Wait Time (hours),Medical Condition,Symptoms,Insurance Provider,Hospital,Hospital Zip Code,Price Range ($),Admission Type
 Alex Green,29,Male,White,4,Anxiety,Insomnia,Blue Cross,St. Mary�s Medical Center,90210,5200,Appointment
 Anna Scott,51,Female,Hispanic,5,Arthritis,Joint pain,United Health,Riverside General,91701,6000,Appointment
 Brian Adams,62,Male,Black,3,Heart disease,Chest pain,Aetna,City Hospital,90001,4500,Emergency
