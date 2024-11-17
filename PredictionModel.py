@@ -98,7 +98,7 @@ def json_to_csv(user_input, output_csv_file, expected_columns):
    
 
 
-json_file_path = 'questionnaire_form.json'
+json_file_path = 'data/questionnaire_form.json'
 user_input = load_user_input(json_file_path)
 
 
