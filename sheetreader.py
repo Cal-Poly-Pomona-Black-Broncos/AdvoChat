@@ -12,13 +12,18 @@ indiv_form = os.path.join("data", "individual_form.json")
 #input data -> raw json data
 #input name -> name of json file being saved
 def save_json(data, name):
+    # Ensure the 'data' directory exists
+    if not os.path.exists("data"):
+        os.makedirs("data")
+
+    # Save the JSON data into the specified file
     with open(os.path.join("data", name), "w", encoding="utf-8") as json_file:
-            json.dump(data, json_file, indent=4)
+        json.dump(data, json_file, indent=4)
 
 
 #download form into json
 def csv_json():
-    response = requests.get("https://docs.google.com/spreadsheets/d/1Mt5Ep5oEZB3_Qj3sjaAaL5jmi6L3iqhcQx14keK6prI/gviz/tq?tqx=out:csv")
+    response = requests.get("https://docs.google.com/spreadsheets/d/1uLztY6YRsbsBAcxUeJoKzOzwSe36jYdhy8Den9IOcmA/gviz/tq?tqx=out:csv")
     if response.status_code == 200:
         csv_content = response.content.decode("utf-8")
         csv_reader = csv.DictReader(csv_content.splitlines())
@@ -33,39 +38,52 @@ def csv_json():
 def parse_json(email):
     with open(json_form, "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
-        filtered_data = [row for row in data if row.get("Email ", "").strip().lower() == email.strip().lower()]
+        filtered_data = [row for row in data if row.get("Email", "").strip().lower() == email.strip().lower()]
         
         #grab latest response
         if filtered_data:
             latest_response = max(filtered_data, key=lambda x: x.get("Timestamp"))
             save_json([latest_response], "individual_form.json")
 
-# def append_prediction(data, json_data):
-#     """
-#     Append or update JSON data with new data.
+def combine_with_individual_form(json_data: dict):
+    try:
+        # Load existing JSON data from the predefined file
+        with open(indiv_form, 'r') as file:
+            file_json = json.load(file)
 
-#     Args:
-#         data: The new data to append or update.
-#         json_data: The existing JSON data (list or dictionary).
+        # Check if the loaded data is a list or dictionary
+        if isinstance(file_json, list):
+            # Append the new data if the file contains a list
+            file_json.append(json_data)
+        elif isinstance(file_json, dict):
+            # Merge the dictionaries if the file contains a dictionary
+            file_json = {**file_json, **json_data}
+        else:
+            raise ValueError("Unexpected JSON structure in the file.")
 
-#     Returns:
-#         The updated JSON data.
-#     """
-#     # Combine data based on the JSON structure
-#     if isinstance(json_data, list):
-#         if data not in json_data:  # Avoid duplicates
-#             json_data.append(data)
-#     elif isinstance(json_data, dict):
-#         json_data.update(data)
-#     else:
-#         raise ValueError("JSON structure must be a list or dictionary.")
-    
-#     return json_data
+        # Write the updated JSON back to the predefined file
+        with open(indiv_form, 'w') as output_file:
+            json.dump(file_json, output_file, indent=2)
+
+        print("Data merged and updated in 'individual_form.json' successfully.")
+
+    except FileNotFoundError:
+        print(f"Error: File '{indiv_form}' not found.")
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+    except ValueError as e:
+        print(f"Error: {e}")
 
 
-# updated_data = append_prediction(individual_form, individual_form)
+# json_data = {
+#     "name": "Alice",
+#     "age": 25,
+#     "hobbies": ["reading", "hiking"]
+# }
+
+# combine_with_individual_form(json_data)
 
 
 
 csv_json()
-# parse_json("Cmartin@cpp.edu")
+parse_json("derekPrince@cpp.edu")

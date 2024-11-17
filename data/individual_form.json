@@ -1,0 +1,30 @@
+[
+  {
+    "Timestamp": "11/17/2024 1:24:44",
+    "Email": "derekPrince@cpp.edu",
+    "Age": "66",
+    "Gender": "Male",
+    "Race": "American Indian or Alaska Native, Black or African American",
+    "Medical Condition": "My Leg Hurt",
+    "Symptoms": "Aching in leg bones",
+    "Insurance Provider": "Blue Cross",
+    "Zip Code": "91214",
+    "Price Range": "5000",
+    "Admission Type": "Emergency"
+  },
+  [
+    {
+      "Timestamp": "11/17/2024 1:24:44",
+      "Email": "derekPrince@cpp.edu",
+      "Age": "66",
+      "Gender": "Male",
+      "Race": "American Indian or Alaska Native, Black or African American",
+      "Medical Condition": "My Leg Hurt",
+      "Symptoms": "Aching in leg bones",
+      "Insurance Provider": "Blue Cross",
+      "Zip Code": "91214",
+      "Price Range": "5000",
+      "Admission Type": "Emergency"
+    }
+  ]
+]

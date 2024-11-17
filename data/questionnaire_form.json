@@ -1,16 +1,15 @@
 [
     {
-        "Timestamp ": "11/17/2024 0:28:27",
-        "First Name ": "John",
-        "Last Name  ": "Doe",
-        "Insurance Carrier ": "Medicare",
-        "Medical Condition ": "Cancer",
-        "Age  ": "52",
-        "Race ": "Black or African American",
-        "Admission Type ": "Urgent",
-        "Email  ": "bruh@gmail.com",
-        "Gender ": "Male",
-        "Symptoms / Health Concerns ": "Flu like symptoms, Cough, dry throat",
-        "Zip code ": "91206"
+        "Timestamp": "11/17/2024 1:24:44",
+        "Email": "derekPrince@cpp.edu",
+        "Age": "66",
+        "Gender": "Male",
+        "Race": "American Indian or Alaska Native, Black or African American",
+        "Medical Condition": "My Leg Hurt",
+        "Symptoms": "Aching in leg bones",
+        "Insurance Provider": "Blue Cross",
+        "Zip Code": "91214",
+        "Price Range": "5000",
+        "Admission Type": "Emergency"
     }
 ]
