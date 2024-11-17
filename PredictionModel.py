@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 expected_columns = ['Age', 'Gender', 'Race', 'Medical Condition', 'Symptoms', 'Insurance Provider', 'Zip Code', 'Price Range ($)', 'Admission Type']
 
 # Load the data 
-medData = pd.read_csv('HealthCareData.csv', encoding='ISO-8859-1')
+medData = pd.read_csv(r'data\HealthCareData.csv', encoding='ISO-8859-1')
 medData.dropna(inplace=True)
 
 #Encoding for categorical Data
