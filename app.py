@@ -1,5 +1,13 @@
+
 from tkinter import *
+
 from tkinter import ttk
+
+BG_BLUE = "#6495ED"
+BG_COLOR = "#3D59AB"
+
+FONT = "MS Sans Serif 14"
+FONT_BOLD = "MS Sans Serif 13 bold"
 
 class ChatDisplay:
 
