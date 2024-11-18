@@ -1,54 +1,82 @@
-
 from tkinter import *
-
 from tkinter import ttk
 
 BG_BLUE = "#6495ED"
 BG_COLOR = "#3D59AB"
+TEXT_COLOR = "#EAECEE"
 
 FONT = "MS Sans Serif 14"
 FONT_BOLD = "MS Sans Serif 13 bold"
 
 class ChatDisplay:
 
-    def __init__(self, root):
+    def __init__(self):
+        self.window = Tk()
+        self.setup_main_window()
 
-        root.title("Blackground Chat")
+    def setup_main_window(self):
+        self.window.title("BlackGround Chat")
+        self.window.resizable(width=False, height=False)
+        self.window.configure(width=470, height=550, bg=BG_COLOR)
 
-        mainframe = ttk.Frame(root, padding="3 3 12 12")
-        mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-        root.columnconfigure(0, weight=1)
-        root.rowconfigure(0, weight=1)
-
-        self.feet = StringVar()
-        feet_entry = ttk.Entry(mainframe, width=7, textvariable=self.feet)
-        feet_entry.grid(column=2, row=1, sticky=(W, E))
-
-        self.meters = StringVar()
-
-        ttk.Label(mainframe, textvariable=self.meters).grid(column=2, row=2, sticky=(W, E))
-
-        ttk.Button(mainframe, text="Calculate", command=self.calculate).grid(column=3, row=3, sticky=W)
-
-        ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
-        ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
-        ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
-
-        for child in mainframe.winfo_children():
-            child.grid_configure(padx=5, pady=5)
-
-
-        feet_entry.focus()
-        root.bind("<Enter>", self.calculate)
+        # head label
+        head_label = Label(self.window, bg=BG_COLOR, fg=TEXT_COLOR,
+                           text="Welcome", font=(FONT_BOLD, 20), pady=10)
+        head_label.place(relwidth=1)
         
+        # tiny divider
+        line = Label(self.window, width=450, bg=BG_BLUE)
+        line.place(relwidth=1, rely=0.07, relheight=0.012)
+        
+        # text widget
+        self.text_widget = Text(self.window, width=20, height=2, bg=BG_COLOR, fg=TEXT_COLOR,
+                                font=(FONT, 20), padx=5, pady=5)
+        self.text_widget.place(relheight=0.745, relwidth=1, rely=0.08)
+        self.text_widget.configure(cursor="arrow", state=DISABLED)
+        
+        # scroll bar
+        scrollbar = Scrollbar(self.text_widget)
+        scrollbar.place(relheight=1, relx=0.974)
+        scrollbar.configure(command=self.text_widget.yview)
+        
+        # bottom label
+        bottom_label = Label(self.window, bg=BG_BLUE, height=80)
+        bottom_label.place(relwidth=1, rely=0.825)
+        
+        # message entry box
+        self.msg_entry = Entry(bottom_label, bg="#2C3E50", fg=TEXT_COLOR, font=(FONT, 20))
+        self.msg_entry.place(relwidth=0.74, relheight=0.06, rely=0.008, relx=0.011)
+        self.msg_entry.focus()
+        self.msg_entry.bind("<Return>", self._on_enter_pressed)
+        
+        # send button
+        send_button = Button(bottom_label, text="Send", font=(FONT_BOLD, 20), width=20, bg=BG_BLUE,
+                             command=lambda: self._on_enter_pressed(None))
+        send_button.place(relx=0.77, rely=0.008, relheight=0.06, relwidth=0.22)
 
-    def calculate(self, *args):
-        try:
-            value = float(self.feet.get())
-            self.meters.set(int(0.3048 * value * 10000.0 + 0.5)/10000.0)
-        except ValueError:
-            pass
+    def _on_enter_pressed(self, event):
+        msg = self.msg_entry.get()
+        self._insert_message(msg, "You")
+        
+    def _insert_message(self, msg, sender):
+        if not msg:
+            return
+        
+        self.msg_entry.delete(0, END)
+        msg1 = f"{sender}: {msg}\n\n"
+        self.text_widget.configure(state=NORMAL)
+        self.text_widget.insert(END, msg1)
+        self.text_widget.configure(state=DISABLED)
+        
+        self.text_widget.configure(state=NORMAL)
+        self.text_widget.insert(END, msg2)
+        self.text_widget.configure(state=DISABLED)
+        
+        self.text_widget.see(END)
 
-root = Tk()
-ChatDisplay(root)
-root.mainloop()
+    def run(self):
+        self.window.mainloop()
+
+if __name__ == "__main__":
+    app = ChatDisplay()
+    app.run()
