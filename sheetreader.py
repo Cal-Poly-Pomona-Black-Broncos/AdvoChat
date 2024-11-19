@@ -23,7 +23,7 @@ def save_json(data, name):
 
 #download form into json
 def csv_json():
-    response = requests.get("https://docs.google.com/spreadsheets/d/1uLztY6YRsbsBAcxUeJoKzOzwSe36jYdhy8Den9IOcmA/gviz/tq?tqx=out:csv")
+    response = requests.get("https://docs.google.com/spreadsheets/d/1iR1nPIQgCYTJ_I6YagPxfqCH3i5X6bOXtbyn9jIeYdc/gviz/tq?tqx=out:csv")
     if response.status_code == 200:
         csv_content = response.content.decode("utf-8")
         csv_reader = csv.DictReader(csv_content.splitlines())
@@ -74,6 +74,40 @@ def combine_with_individual_form(json_data: dict):
     except ValueError as e:
         print(f"Error: {e}")
 
+def append_predicted_class(predicted_class: str):
+    
+    try:
+        # Load the JSON data from the predefined file
+        with open(indiv_form, 'r') as file:
+            data = json.load(file)
+
+        # Ensure the file contains a list and has at least one dictionary entry
+        if isinstance(data, list) and len(data) > 0:
+            # Append the "Chosen Hospital" field to the last dictionary entry
+            data[-1]["Chosen Hospital"] = predicted_class
+
+            # Write the updated JSON data back to the file
+            with open(indiv_form, 'w') as output_file:
+                json.dump(data, output_file, indent=2)
+
+            print("Predicted class added successfully to the JSON file.")
+
+        else:
+            print("Error: JSON data is not a list or is empty.")
+
+    except FileNotFoundError:
+        print(f"Error: File '{indiv_form}' not found.")
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+
+def remove_prev():
+    os.remove(indiv_form)
+
+#startup funciton
+def main(email):
+    csv_json()
+    parse_json(email)
+
 
 # json_data = {
 #     "name": "Alice",
@@ -84,6 +118,7 @@ def combine_with_individual_form(json_data: dict):
 # combine_with_individual_form(json_data)
 
 
+# csv_json()
+# parse_json("fun@gmail.com")
 
-csv_json()
-parse_json("derekPrince@cpp.edu")
+# append_predicted_class('Fungual Houses')

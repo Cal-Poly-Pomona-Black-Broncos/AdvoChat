@@ -1,15 +1,18 @@
 [
-    {
-        "Timestamp": "11/17/2024 1:24:44",
-        "Email": "derekPrince@cpp.edu",
-        "Age": "66",
-        "Gender": "Male",
-        "Race": "American Indian or Alaska Native, Black or African American",
-        "Medical Condition": "My Leg Hurt",
-        "Symptoms": "Aching in leg bones",
-        "Insurance Provider": "Blue Cross",
-        "Zip Code": "91214",
-        "Price Range ($)": "5000",
-        "Admission Type": "Emergency"
-    }
+  {
+    "Timestamp": "11/18/2024 20:51:52",
+    "Email": "fun@gmail.com",
+    "Age": "42",
+    "Gender": "Male",
+    "Medical History": "Fungal Treaments",
+    "Race": "Middle Eastern or North African",
+    "Address": "701 Atkins Dr",
+    "City": "Glendale",
+    "State": "CA",
+    "Zip Code": "91206",
+    "County": "Los Angeles County",
+    "Insurance Provider": "Kaiser",
+    "Type of Care": "Military",
+    "Chosen Hospital": "['Green Hills Medical Center']"
+  }
 ]

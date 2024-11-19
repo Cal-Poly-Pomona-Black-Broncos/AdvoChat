@@ -98,14 +98,5 @@ def json_to_csv(user_input, output_csv_file, expected_columns):
    
 
 
-json_file_path = 'data/questionnaire_form.json'
-user_input = load_user_input(json_file_path)
 
-
-csv_output_path = 'data/user_input_output.csv'
-json_to_csv(user_input, csv_output_path, expected_columns)
-
-
-predicted_class = predict_hospital(rf, x_clean, user_input[0], encoders)
-print(f"Prediction for the user input: {predicted_class}")
 

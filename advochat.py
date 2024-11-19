@@ -14,7 +14,8 @@ def chat_with_gpt(user_input):
 
     conversation_history.append({"role": "user", "content": user_input})
     conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data, indent=2)}"})
-    conversation_history.append({"role": "system", "content": "tell the user: all the JSON data you were provided for them(do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help"})
+    conversation_history.append({"role": "system", "content": "You will NOT tell the user you cannot help, when asked for help, you will redirect the patient to the chosen hospital that is selected"})
+    conversation_history.append({"role": "system", "content": "tell the patient: all the JSON data you were provided for them(do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help this patient"})
     response = client.chat.completions.create(
         messages=conversation_history,
         model="gpt-4",  
@@ -30,7 +31,7 @@ def chat_with_gpt(user_input):
 def chat():
     #CHAT LOOP --> this should be looped on the front end?
     print("AdvoChat (type 'exit' to quit):")
-    response = chat_with_gpt("restate all the information on the patient")
+    response = chat_with_gpt("restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. Insist patient that they should attend the chosen hospital based on the data analytics")
     print(f"AdvoChat: {response}")
     while True:
         #change for UI elements
