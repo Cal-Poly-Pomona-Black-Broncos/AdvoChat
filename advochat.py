@@ -31,7 +31,7 @@ def chat_with_gpt(user_input):
 def chat():
     #CHAT LOOP --> this should be looped on the front end?
     print("AdvoChat (type 'exit' to quit):")
-    response = chat_with_gpt("restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. Insist patient that they should attend the chosen hospital based on the data analytics")
+    response = chat_with_gpt("Introduce yourself, then restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. for the first message make a footer Insisting the patient that they should attend the calculated hospital based on the data analytics")
     print(f"AdvoChat: {response}")
     while True:
         #change for UI elements
