@@ -100,8 +100,12 @@ def append_predicted_class(predicted_class: str):
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
 
+#Removes Previous form responses
 def remove_prev():
-    os.remove(indiv_form)
+    indiv_form = r'data\individual_form.json'
+    
+    if os.path.exists(indiv_form):
+        os.remove(indiv_form)
 
 #startup funciton
 def main(email):
