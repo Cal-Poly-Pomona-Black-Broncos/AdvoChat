@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from advochat import chat
 
 BG_BLUE = "#6495ED"
 BG_COLOR = "#3D59AB"
@@ -51,6 +52,13 @@ class ChatDisplay:
          self.txt_window.configure(state=NORMAL)
          self.txt_window.insert(END, msg1)
          self.txt_window.configure(state=DISABLED)
+
+         msg2 = f"Bot: {chat}\n"
+         self.txt_window.configure(state=NORMAL)
+         self.txt_window.insert(END, msg2)
+         self.txt_window.configure(state=DISABLED)
+
+         self.txt_window.see(END)
              
 ChatDisplay(root)
 root.mainloop()

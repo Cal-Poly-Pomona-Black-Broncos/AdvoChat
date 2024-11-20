@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-conversation_history = [{"role": "system", "content": "You are a medical assistant. I will provide you with a json file with a patients background information, and further details to help aid the paitent, you will only contextualize"}]
+conversation_history = [{"role": "system", "content": "You are a medical assistant. I will provide you with a json file with a patients background information, and further details to help aid the patient, you will only contextualize"}]
 
 def chat_with_gpt(user_input):
     patient_data = json.loads(open("data/individual_form.json", "r", encoding="utf-8").read())
@@ -15,7 +15,7 @@ def chat_with_gpt(user_input):
     conversation_history.append({"role": "user", "content": user_input})
     conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data, indent=2)}"})
     conversation_history.append({"role": "system", "content": "You will NOT tell the user you cannot help, when asked for help, you will redirect the patient to the chosen hospital that is selected"})
-    conversation_history.append({"role": "system", "content": "tell the patient: all the JSON data you were provided for them(do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help this patient"})
+    conversation_history.append({"role": "system", "content": "Tell the patient: all the JSON data you were provided for them (do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help this patient"})
     response = client.chat.completions.create(
         messages=conversation_history,
         model="gpt-4",  
