@@ -10,7 +10,7 @@ FONT_BOLD = "MS Sans Serif 13 bold"
 
 root = Tk()
 
-class ChatDisplay:
+class DisplayChat:
 
     def __init__(self, root):
 
@@ -21,7 +21,9 @@ class ChatDisplay:
         root.rowconfigure(0, weight=1)
 
 
+
         # text window
+
         self.txt_window = Text(content)
         self.txt_window.grid(column=0,row=0,columnspan=2,rowspan=2)
         self.txt_window.configure(cursor="arrow",state=DISABLED)
@@ -51,6 +53,12 @@ class ChatDisplay:
          self.txt_window.configure(state=NORMAL)
          self.txt_window.insert(END, msg1)
          self.txt_window.configure(state=DISABLED)
-             
-ChatDisplay(root)
+
+         
+        
+
+    
+    
+
+DisplayChat(root)
 root.mainloop()
