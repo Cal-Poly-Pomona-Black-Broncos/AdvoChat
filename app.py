@@ -4,88 +4,121 @@ from advochat import *
 import threading
 
 
-BG_BLUE = "#6495ED"
 BG_COLOR = "#3D59AB"
-TEXT_COLOR = "#EAECEE"
+USER_COLOR = "#6495ED"
+BOT_COLOR = "#EAECEE"
+TEXT_COLOR = "#000000"
 
-FONT = "MS Sans Serif 14"
-FONT_BOLD = "MS Sans Serif 13 bold"
+FONT = ("MS Sans Serif", 14)
+FONT_BOLD = ("MS Sans Serif", 13, "bold")
 
 root = Tk()
+
+
 class ChatDisplay:
-
     def __init__(self, root):
-
         root.title("AdvoChat")
         content = ttk.Frame(root, padding="3 3 12 12")
         content.grid(column=0, row=0, sticky=(N, W, E, S))
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
+        # Chat display area
+        self.txt_window = Text(content, wrap=WORD, bg=BG_COLOR, fg=TEXT_COLOR, font=FONT, state=DISABLED,)
+        self.txt_window.grid(column=0, row=0, columnspan=3, sticky=(N, W, E, S))
 
-        # text window
-        self.txt_window = Text(content)
-        self.txt_window.grid(column=0,row=0,columnspan=2,rowspan=2)
-        self.txt_window.configure(cursor="arrow", state=NORMAL, wrap=WORD, font=(FONT, 14))
-        self.txt_window.insert(END, "AdvoChat (type 'exit' to quit):\n\n")
+        # Scrollbar for chat display
+        self.scrollbar = ttk.Scrollbar(content, command=self.txt_window.yview)
+        self.scrollbar.grid(column=3, row=0, sticky=(N, S))
+        self.txt_window['yscrollcommand'] = self.scrollbar.set
 
-        # message entry
-        self.msg_entry = ttk.Entry(content, width=7, font=(FONT, 14))
-        self.msg_entry.grid(column=0, row=2, columnspan=2, sticky=(W, E))
+        # Message entry
+        self.msg_entry = ttk.Entry(content, font=FONT, width=50)
+        self.msg_entry.grid(column=0, row=1, columnspan=2, sticky=(W, E))
         self.msg_entry.focus()
 
-        
-        # send button
+        # Send button
         send_btn = ttk.Button(content, text="Send", command=self.enter)
-        send_btn.grid(column=3, row=2, sticky=(N, W, E, S))
+        send_btn.grid(column=2, row=1, sticky=(E))
         self.msg_entry.bind('<Return>', self.enter)
 
-        # conversation_history
-        self.conversation_history = [{"role": "system", "content": "You are a medical assistant. I will provide you with a json file with a patients background information, and further details to help aid the patient, you will only contextualize"}]
+        # conversation history
+        self.conversation_history = [{"role": "system", "content": "You are a medical assistant. I will provide you with a json file with a patient's background information, and further details to help aid the patient. You will only contextualize."}]
+
+        # Add custom text tags for bubbles
+        self.txt_window.tag_configure("user", foreground="white", background=USER_COLOR, justify="right", lmargin1=100, rmargin=10, wrap=WORD)
+        self.txt_window.tag_configure("bot", foreground="black", background=BOT_COLOR, justify="left", lmargin1=10, rmargin=100, wrap=WORD)
+        self.txt_window.tag_configure("padding", background=BG_COLOR)
 
     def enter(self, *args):
-        self.user_message = self.msg_entry.get()
-        self.txt_window.insert(END, f"You: {self.user_message}\n\n")
-        self.msg_entry.delete(0, END)
-        self.chat()
-    
+        user_message = self.msg_entry.get()
+        if user_message.strip():  # Ignore empty messages
+            self.display_message("user", user_message)
+            self.msg_entry.delete(0, END)
+            self.chat(user_message)
 
+    def display_message(self, sender, message):
+        """Display a message in the chat window with bubbles."""
+        self.txt_window.configure(state=NORMAL)
+
+        if sender == "user":
+            self.txt_window.insert(END, "\n", "padding")
+            self.txt_window.insert(END, f"You: {message}\n", "user")
+        else:
+            self.txt_window.insert(END, "\n", "padding")
+            self.txt_window.insert(END, f"AdvoChat: {message}\n", "bot")
+
+        self.txt_window.configure(state=DISABLED)
+        self.txt_window.see(END)
+
+   
     def chat_with_gpt(self, user_input):
-        patient_data = json.loads(open("data/individual_form.json", "r", encoding="utf-8").read())
+        """Send the conversation to GPT and get a response."""
+        try:
+            # Simulate loading patient data
+            patient_data = {"name": "John Doe", "age": 45, "condition": "Diabetes", "recommendation": "Visit XYZ Hospital"}
 
-        self.conversation_history.append({"role": "user", "content": user_input})
-        self.conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data, indent=2)}"})
-        self.conversation_history.append({"role": "system", "content": "You will NOT tell the user you cannot help, when asked for help, you will redirect the patient to the chosen hospital that is selected"})
-        self.conversation_history.append({"role": "system", "content": "Tell the patient: all the JSON data you were provided for them (do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help this patient"})
-        response = client.chat.completions.create(
-            messages=self.conversation_history,
-            model="gpt-4",  
-        )
-        
-        assistant_reply = response.choices[0].message.content 
-        
-        #COLLECT ALL DATA
-        self.conversation_history.append({"role": "assistant", "content": assistant_reply})
-        
-        return assistant_reply
+            # Update conversation history
+            self.conversation_history.append({"role": "user", "content": user_input})
 
-    def chat(self, *args):
+            print(f"Updated conversation history: {self.conversation_history}")
 
-            #CHAT LOOP --> this should be looped on the front end?
-            response = self.chat_with_gpt("Introduce yourself, then restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. for the first message make a footer Insisting the patient that they should attend the calculated hospital based on the data analytics")
+            # Update conversation history with the patient's data in a way that GPT can understand it better
+            self.conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data)}"})
+            self.conversation_history.append({"role": "system", "content": "Provide assistance and contextualize the patient information, particularly focusing on the hospital recommendation."})
 
-            
-            if self.user_message.lower() in ["exit", "quit"]:
-                self.txt_window.insert(END, "Ending the chat. Goodbye!")
-                root.destroy()
-            else:
-                #implement response, and awaiting response
-                try:
-                    response = self.chat_with_gpt(self.user_message)
-                    self.txt_window.insert(END, f"AdvoChat: {response}\n\n")
-                except Exception as e:
-                        self.txt_window.insert(END, f"An error occurred: {e}\n\n")
-            self.txt_window.see(END)
+            # Replace the recursive call with the actual API call
+            response = client.chat.completions.create(
+                messages=self.conversation_history,
+                model="gpt-4"
+            )
+
+            # Extract the assistant's reply
+            assistant_reply = response.choices[0].message.content
+
+            print(f"Assistant reply: {assistant_reply}")
+
+            # Update history
+            self.conversation_history.append({"role": "assistant", "content": assistant_reply})
+            return assistant_reply
+
+        except Exception as e:
+            # Handle any errors gracefully
+            return f"An error occurred: {e}"
+
+
+
+    def chat(self, user_message):
+        """Handle user input and generate a response."""
+        if not user_message:
+            self.display_message("bot", "I didn't catch that. Please try again.")
+            return
+
+        try:
+            response = self.chat_with_gpt(user_message)
+            self.display_message("bot", response)
+        except Exception as e:
+            self.display_message("bot", f"An error occurred: {e}")
     
 
 ChatDisplay(root)
