@@ -26,17 +26,17 @@ class ChatDisplay:
         # text window
         self.txt_window = Text(content)
         self.txt_window.grid(column=0,row=0,columnspan=2,rowspan=2)
-        self.txt_window.configure(cursor="arrow", state=NORMAL, wrap=WORD, bg=BG_COLOR, fg=TEXT_COLOR, font=(FONT, 20))
+        self.txt_window.configure(cursor="arrow", state=NORMAL, wrap=WORD, font=(FONT, 14))
         self.txt_window.insert(END, "AdvoChat (type 'exit' to quit):\n\n")
 
         # message entry
-        self.msg_entry = ttk.Entry(content, width=7)
+        self.msg_entry = ttk.Entry(content, width=7, font=(FONT, 14))
         self.msg_entry.grid(column=0, row=2, columnspan=2, sticky=(W, E))
         self.msg_entry.focus()
 
         
         # send button
-        send_btn = ttk.Button(content, text="Send", command=self.chat)
+        send_btn = ttk.Button(content, text="Send", command=self.enter)
         send_btn.grid(column=3, row=2, sticky=(N, W, E, S))
         self.msg_entry.bind('<Return>', self.enter)
 
@@ -49,6 +49,7 @@ class ChatDisplay:
         self.msg_entry.delete(0, END)
         self.chat()
     
+
     def chat_with_gpt(self, user_input):
         patient_data = json.loads(open(r"C:\Users\ccfma\Desktop\Blackground\AI-Hackathon\data\individual_form.json", "r", encoding="utf-8").read())
 
@@ -72,19 +73,19 @@ class ChatDisplay:
 
             #CHAT LOOP --> this should be looped on the front end?
             response = self.chat_with_gpt("Introduce yourself, then restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. for the first message make a footer Insisting the patient that they should attend the calculated hospital based on the data analytics")
-            self.txt_window.insert(END, f"AdvoChat: {response}\n\n")
 
-            while True:
-                if self.user_message.lower() in ["exit", "quit"]:
-                    self.txt_window.insert(END, "Ending the chat. Goodbye!")
-                    root.destroy()
-                else:
-                    #implement response, and awaiting response
-                    try:
-                        response = self.chat_with_gpt(self.user_message)
-                        self.txt_window.insert(END, f"AdvoChat: {response}\n\n")
-                    except Exception as e:
-                            self.txt_window.insert(END, f"An error occurred: {e}\n\n")
+            
+            if self.user_message.lower() in ["exit", "quit"]:
+                self.txt_window.insert(END, "Ending the chat. Goodbye!")
+                root.destroy()
+            else:
+                #implement response, and awaiting response
+                try:
+                    response = self.chat_with_gpt(self.user_message)
+                    self.txt_window.insert(END, f"AdvoChat: {response}\n\n")
+                except Exception as e:
+                        self.txt_window.insert(END, f"An error occurred: {e}\n\n")
+            self.txt_window.see(END)
     
 
 ChatDisplay(root)
