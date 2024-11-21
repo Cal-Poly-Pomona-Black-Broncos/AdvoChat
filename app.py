@@ -16,7 +16,7 @@ class ChatDisplay:
 
     def __init__(self, root):
 
-        root.title("Healthcare Chat")
+        root.title("AdvoChat")
         content = ttk.Frame(root, padding="3 3 12 12")
         content.grid(column=0, row=0, sticky=(N, W, E, S))
         root.columnconfigure(0, weight=1)
