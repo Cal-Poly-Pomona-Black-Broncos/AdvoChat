@@ -51,7 +51,7 @@ class ChatDisplay:
     
 
     def chat_with_gpt(self, user_input):
-        patient_data = json.loads(open(r"C:\Users\ccfma\Desktop\Blackground\AI-Hackathon\data\individual_form.json", "r", encoding="utf-8").read())
+        patient_data = json.loads(open("\data\individual_form.json", "r", encoding="utf-8").read())
 
         self.conversation_history.append({"role": "user", "content": user_input})
         self.conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data, indent=2)}"})
