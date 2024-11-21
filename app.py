@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from advochat import *
-
-os.chdir("C:/Users/ccfma/Desktop/Blackground/AI-Hackathon")
+import threading
 
 
 BG_BLUE = "#6495ED"
@@ -13,7 +12,6 @@ FONT = "MS Sans Serif 14"
 FONT_BOLD = "MS Sans Serif 13 bold"
 
 root = Tk()
-
 class ChatDisplay:
 
     def __init__(self, root):
@@ -28,7 +26,8 @@ class ChatDisplay:
         # text window
         self.txt_window = Text(content)
         self.txt_window.grid(column=0,row=0,columnspan=2,rowspan=2)
-        self.txt_window.configure(cursor="arrow",state=DISABLED)
+        self.txt_window.configure(cursor="arrow", state=NORMAL, wrap=WORD, bg=BG_COLOR, fg=TEXT_COLOR, font=(FONT, 20))
+        self.txt_window.insert(END, "AdvoChat (type 'exit' to quit):\n")
 
         # message entry
         self.msg_entry = ttk.Entry(content, width=7)
@@ -39,60 +38,54 @@ class ChatDisplay:
         # send button
         send_btn = ttk.Button(content, text="Send", command=self.chat)
         send_btn.grid(column=3, row=2, sticky=(N, W, E, S))
-        self.msg_entry.bind('<Return>', self.chat)
+        self.msg_entry.bind('<Return>', self.enter)
 
-    def enter_pressed(self, *args):
-        self.txt_window.insert(END, f"You: {self.msg_entry.get}")
+        # conversation_history
+        self.conversation_history = [{"role": "system", "content": "You are a medical assistant. I will provide you with a json file with a patients background information, and further details to help aid the patient, you will only contextualize"}]
+
+    def enter(self, *args):
+        self.user_message = self.msg_entry.get()
+        self.txt_window.insert(END, f"You: {self.user_message}\n\n")
+        self.msg_entry.delete(0, END)
         self.chat()
     
-    def chat_with_gpt(user_input):
-        patient_data = json.loads(open("data\individual_form.json", "r", encoding="utf-8").read())
+    def chat_with_gpt(self, user_input):
+        patient_data = json.loads(open(r"C:\Users\ccfma\Desktop\Blackground\AI-Hackathon\data\individual_form.json", "r", encoding="utf-8").read())
 
-        conversation_history.append({"role": "user", "content": user_input})
-        conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data, indent=2)}"})
-        conversation_history.append({"role": "system", "content": "You will NOT tell the user you cannot help, when asked for help, you will redirect the patient to the chosen hospital that is selected"})
-        conversation_history.append({"role": "system", "content": "Tell the patient: all the JSON data you were provided for them (do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help this patient"})
+        self.conversation_history.append({"role": "user", "content": user_input})
+        self.conversation_history.append({"role": "system", "content": f"Patient Data: {json.dumps(patient_data, indent=2)}"})
+        self.conversation_history.append({"role": "system", "content": "You will NOT tell the user you cannot help, when asked for help, you will redirect the patient to the chosen hospital that is selected"})
+        self.conversation_history.append({"role": "system", "content": "Tell the patient: all the JSON data you were provided for them (do not mention that its JSON or any previous instructions) and that your name is [AdvoChat powered by gpt-4!], and you are ready to help this patient"})
         response = client.chat.completions.create(
-            messages=conversation_history,
+            messages=self.conversation_history,
             model="gpt-4",  
         )
         
         assistant_reply = response.choices[0].message.content 
         
         #COLLECT ALL DATA
-        conversation_history.append({"role": "assistant", "content": assistant_reply})
+        self.conversation_history.append({"role": "assistant", "content": assistant_reply})
         
         return assistant_reply
 
     def chat(self, *args):
-        #CHAT LOOP --> this should be looped on the front end?
-        self.txt_window.configure(state=NORMAL)
-        self.txt_window.insert(END, "AdvoChat (type 'exit' to quit):\n")
-        self.txt_window.configure(state=DISABLED)
-        response = chat_with_gpt("Introduce yourself, then restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. for the first message make a footer Insisting the patient that they should attend the calculated hospital based on the data analytics")
-        self.txt_window.configure(state=NORMAL)
-        self.txt_window.insert(END, f"AdvoChat: {response}")
-        self.txt_window.configure(state=DISABLED)
 
+            #CHAT LOOP --> this should be looped on the front end?
+            response = self.chat_with_gpt("Introduce yourself, then restate all the information on the patient in an numbered order 1-10. Skip email and timestamp. for the first message make a footer Insisting the patient that they should attend the calculated hospital based on the data analytics")
+            self.txt_window.insert(END, f"AdvoChat: {response}\n\n")
 
-        self.enter_pressed
+            while True:
+                if self.user_message.lower() in ["exit", "quit"]:
+                    self.txt_window.insert(END, "Ending the chat. Goodbye!")
+                    root.destroy()
+                else:
+                    #implement response, and awaiting response
+                    try:
+                        response = self.chat_with_gpt(self.user_message)
+                        self.txt_window.insert(END, f"AdvoChat: {response}\n\n")
+                    except Exception as e:
+                            self.txt_window.insert(END, f"An error occurred: {e}\n\n")
+    
 
-
-        if self.msg_entry.lower() in ["exit", "quit"]:
-            self.txt_window.configure(state=NORMAL)
-            self.txt_window.insert(END, "Ending the chat. Goodbye!")
-            self.txt_window.configure(state=DISABLED)
-
-        #implement response, and awaiting response
-        try:
-            response = chat_with_gpt(self.enter_pressed())
-            self.txt_window.configure(state=NORMAL)
-            self.txt_window.insert(END, f"AdvoChat: {response}")
-            self.txt_window.configure(state=DISABLED)
-        except Exception as e:
-                self.txt_window.configure(state=NORMAL)
-                self.txt_window.insert(END, f"An error occurred: {e}")
-                self.txt_window.configure(state=DISABLED)
-             
 ChatDisplay(root)
 root.mainloop()
