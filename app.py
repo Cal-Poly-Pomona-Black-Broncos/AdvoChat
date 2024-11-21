@@ -27,7 +27,7 @@ class ChatDisplay:
         self.txt_window = Text(content)
         self.txt_window.grid(column=0,row=0,columnspan=2,rowspan=2)
         self.txt_window.configure(cursor="arrow", state=NORMAL, wrap=WORD, bg=BG_COLOR, fg=TEXT_COLOR, font=(FONT, 20))
-        self.txt_window.insert(END, "AdvoChat (type 'exit' to quit):\n")
+        self.txt_window.insert(END, "AdvoChat (type 'exit' to quit):\n\n")
 
         # message entry
         self.msg_entry = ttk.Entry(content, width=7)
