@@ -9,12 +9,12 @@ import advochat
 from advochat import chat_with_gpt
 
 
-BG_COLOR = "lavender"
-USER_COLOR = "#white"
-BOT_COLOR = "gray"
+BG_COLOR = "gray"
+USER_COLOR = "white"
+BOT_COLOR = "lavender"
 TEXT_COLOR = "black"
-FONT = ("MS Sans Serif", 11)
-FONT_BOLD = ("MS Sans Serif", 11, "bold")
+FONT = ("Helvetica", 11)
+FONT_BOLD = ("Helvetica", 11, "bold")
 
 
 class ChatDisplay:
@@ -101,16 +101,40 @@ class ChatDisplay:
             self.display_message("user", user_message)
             self.msg_entry.delete(0, END)
             self.chat(user_message)
+        
+  
+        
+       
 
     def display_message(self, sender, message):
-        """Display messages in chat window with custom styling."""
+        """Display messages in chat window with text bubbles for user and bot."""
+     # Create a frame for the message
+        message_frame = Frame(self.txt_window, bg=BG_COLOR)
+        message_frame.pack(anchor="e" if sender == "user" else "w", pady=5, padx=10)
+
+    # Style the bubble based on sender
+        bubble_color = "white" if sender == "user" else "lavender"
+        bubble_label = Label(
+            message_frame,
+            text=message,
+            bg=bubble_color,
+            fg=TEXT_COLOR,
+            font=FONT,
+            wraplength=350,
+            padx=10,
+            pady=5,
+            justify=LEFT if sender == "bot" else RIGHT,
+            anchor="w" if sender == "bot" else "e",
+        )
+        bubble_label.pack(side="left" if sender == "bot" else "right", fill="x", padx=5)
+
+        # Scroll to the bottom of the chat
         self.txt_window.configure(state=NORMAL)
-        if sender == "user":
-            self.txt_window.insert(END, f"You: {message}\n", "user")
-        else:
-            self.txt_window.insert(END, f"AdvoChat: {message}\n", "bot")
+        self.txt_window.window_create("end", window=message_frame)
+        self.txt_window.insert("end", "\n")
         self.txt_window.configure(state=DISABLED)
-        self.txt_window.see(END)
+        self.txt_window.see("end")
+
 
     def chat(self, user_message):
         """Handle chat with GPT."""
