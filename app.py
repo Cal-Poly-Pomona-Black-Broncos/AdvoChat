@@ -10,11 +10,11 @@ from advochat import chat_with_gpt
 
 
 BG_COLOR = "lavender"
-USER_COLOR = "#6495ED"
-BOT_COLOR = "#EAECEE"
-TEXT_COLOR = "#000000"
-FONT = ("MS Sans Serif", 10)
-FONT_BOLD = ("MS Sans Serif", 10, "bold")
+USER_COLOR = "#white"
+BOT_COLOR = "gray"
+TEXT_COLOR = "black"
+FONT = ("MS Sans Serif", 11)
+FONT_BOLD = ("MS Sans Serif", 11, "bold")
 
 
 class ChatDisplay:
@@ -141,7 +141,10 @@ class ChatDisplay:
                     # Convert recommended hospitals list to DataFrame and append predicted class
                     hospitals_df = pd.DataFrame(recommended_hospitals)
                     sheetreader.append_predicted_class(hospitals_df.to_dict(orient="records"))
-                    self.display_message("bot", f"Recommended Hospital(s): {recommended_hospitals}")
+
+                    # Format hospitals into a bullet-pointed list
+                    hospital_list = "\n".join([f"• {hospital}" for hospital in recommended_hospitals])
+                    self.display_message("bot", f"Recommended Hospital(s):\n{hospital_list}")
                 else:
                     self.display_message("bot", "No hospitals found within the specified distance.")
 
@@ -152,6 +155,7 @@ class ChatDisplay:
                 self.display_message("bot", f"An error occurred: {e}")
         else:
             self.display_message("bot", "Please provide a valid email and distance.")
+
 
     def run_chat(self, patient_data):
         """Start the chat functionality with AdvoChat."""
