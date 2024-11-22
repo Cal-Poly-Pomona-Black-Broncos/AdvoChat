@@ -112,17 +112,3 @@ def main(email):
     csv_json()
     parse_json(email)
 
-
-# json_data = {
-#     "name": "Alice",
-#     "age": 25,
-#     "hobbies": ["reading", "hiking"]
-# }
-
-# combine_with_individual_form(json_data)
-
-
-# csv_json()
-# parse_json("fun@gmail.com")
-
-# append_predicted_class('Fungual Houses')
