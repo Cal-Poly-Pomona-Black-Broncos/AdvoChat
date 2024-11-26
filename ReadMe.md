@@ -2,7 +2,8 @@
 # AdvoChat 
 FRC Region VI NSBE AI Innotech Impact-a-Thon
 
-Project Focus: Enhanced Access through Telehealth
+# Project Focus: Enhanced Access through Telehealth
+
 AdvoChat is an innovative AI-powered chatbot designed to improve healthcare access and navigation for Black patients, addressing systemic disparities in the healthcare system. By leveraging advanced technology and data-driven insights, AdvoChat empowers patients to overcome barriers such as health literacy gaps, mistrust, and communication challenges, with a focus on chronic disease management and mental health services.
 
 # Objective
